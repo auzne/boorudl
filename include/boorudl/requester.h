@@ -25,6 +25,10 @@ namespace boorudl {
         const source& m_source;
 
     public:
+        requester(ids ids, const source& source);
+
+        requester(tags tags, const source& source);
+
         requester(ids ids, tags tags, const source& source);
 
         requester(const requester&) = default;

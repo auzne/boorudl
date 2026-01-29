@@ -13,7 +13,7 @@
 
 namespace boorudl {
     favorites::favorites(common::id_type user_id, const source& source)
-        : favorites(user_id, source, all_pages, first_page, std::nullopt) { }
+        : favorites{ user_id, source, all_pages, first_page, std::nullopt } { }
     
     favorites::favorites(common::id_type user_id, const source& source, int total_pages, int starting_page, exporter_ref exporter)
         : m_user_id{ user_id }

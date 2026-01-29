@@ -81,7 +81,7 @@ namespace boorudl {
     }
 
     std::string post::get_api_url(common::id_type id, const source& source) {
-        return get_api_url(id, source.get_download_path(), source.get_credentials());
+        return get_api_url(id, source.get_base_url(), source.get_credentials());
     }
 
     std::string post::get_api_url(common::id_type id, const std::string& base_url) {

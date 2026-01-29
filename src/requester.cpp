@@ -14,6 +14,12 @@
 #include <vector>
 
 namespace boorudl {
+    requester::requester(ids ids, const source& source)
+        : requester{ ids, {}, source } { }
+
+    requester::requester(tags tags, const source& source)
+        : requester{ {}, tags, source } { }
+
     requester::requester(ids ids, tags tags, const source& source)
         : m_ids{ std::move(ids) }
         , m_tags{ std::move(tags) }
