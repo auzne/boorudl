@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_PAGE_H
-#define LIBBOORUDL_PAGE_H
+#ifndef BOORUDL_PAGE_H
+#define BOORUDL_PAGE_H
 
 #include "boorudl/post.h"
 
@@ -22,4 +22,4 @@ namespace boorudl {
     };
 } // boorudl
 
-#endif //LIBBOORUDL_PAGE_H
+#endif //BOORUDL_PAGE_H

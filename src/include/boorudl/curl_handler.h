@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_CURL_HANDLER_H
-#define LIBBOORUDL_CURL_HANDLER_H
+#ifndef BOORUDL_CURL_HANDLER_H
+#define BOORUDL_CURL_HANDLER_H
 
 #include <curl/curl.h>
 #include <memory>
@@ -58,4 +58,4 @@ namespace boorudl::curl {
     };
 } // boorudl::curl
 
-#endif //LIBBOORUDL_CURL_HANDLER_H
+#endif //BOORUDL_CURL_HANDLER_H

@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_CREDENTIALS_H
-#define LIBBOORUDL_CREDENTIALS_H
+#ifndef BOORUDL_CREDENTIALS_H
+#define BOORUDL_CREDENTIALS_H
 
 #include <optional>
 #include <string>
@@ -24,4 +24,4 @@ namespace boorudl {
     };
 }
 
-#endif // LIBBOORUDL_CREDENTIALS_H
+#endif // BOORUDL_CREDENTIALS_H

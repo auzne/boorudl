@@ -4,6 +4,7 @@
 #include "boorudl/favorites.h"
 #include "boorudl/ids.h"
 #include "boorudl/page.h"
+#include "boorudl/requester.h"
 #include "boorudl/source.h"
 
 #include <curl/curl.h>
@@ -71,8 +72,16 @@ namespace boorudl {
             return {};
         }
 
-        return get_favorites_page_ids(stream.str())
-            .to_page(m_source, m_exporter);
+        ids ids{ get_favorites_page_ids(stream.str()) };
+        const auto ids_size{ ids.size() };
+
+        requester requester{ ids, m_source };
+        downloadable_type posts{ requester.get_ids_posts(ids_size, m_exporter) };
+
+        boorudl::page result{ posts.empty() ? boorudl::page{} : posts[0] };
+        result.set_is_missing_ids(result.size() < ids_size);
+
+        return result;
     }
 
     ids favorites::get_favorites_page_ids(const std::string& page_html) {

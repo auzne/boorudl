@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_COMMENT_H
-#define LIBBOORUDL_COMMENT_H
+#ifndef BOORUDL_COMMENT_H
+#define BOORUDL_COMMENT_H
 
 #include "boorudl/common.h"
 #include "boorudl/source.h"
@@ -45,4 +45,4 @@ namespace boorudl {
     using comments = comment::collection;
 } // boorudl
 
-#endif //LIBBOORUDL_COMMENT_H
+#endif //BOORUDL_COMMENT_H

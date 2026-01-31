@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_TAGS_H
-#define LIBBOORUDL_TAGS_H
+#ifndef BOORUDL_TAGS_H
+#define BOORUDL_TAGS_H
 
 #include "boorudl/enums.h"
 
@@ -50,6 +50,8 @@ namespace boorudl {
 
         tags& add_or(std::initializer_list<std::string> tags);
 
+        tags& add_or(const std::set<std::string>& tags);
+
         tags& remove_or(std::initializer_list<std::string> tags);
 
         tags& remove_ai_slop();
@@ -64,6 +66,8 @@ namespace boorudl {
 
         static std::string make_or_tag(std::initializer_list<std::string> tags);
 
+        static std::string make_or_tag(const std::set<std::string>& tags);
+
     private:
         std::pair<iterator, bool> insert_tag(const std::string& tag, bool blacklisted);
 
@@ -71,4 +75,4 @@ namespace boorudl {
     };
 } // boorudl
 
-#endif //LIBBOORUDL_TAGS_H
+#endif //BOORUDL_TAGS_H

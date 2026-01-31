@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_SOURCE_H
-#define LIBBOORUDL_SOURCE_H
+#ifndef BOORUDL_SOURCE_H
+#define BOORUDL_SOURCE_H
 
 #include "boorudl/credentials.h"
 
@@ -19,7 +19,7 @@ namespace boorudl {
         explicit source(const std::string& base_url);
 
         source(const std::string& base_url, credentials credentials);
-        
+
         source(const source&) = default;
 
         source(source&&) noexcept = default;
@@ -34,4 +34,4 @@ namespace boorudl {
     };
 } // boorudl
 
-#endif //LIBBOORUDL_SOURCE_H
+#endif //BOORUDL_SOURCE_H

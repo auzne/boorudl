@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_FAVORITES_H
-#define LIBBOORUDL_FAVORITES_H
+#ifndef BOORUDL_FAVORITES_H
+#define BOORUDL_FAVORITES_H
 
 #include "boorudl/common.h"
 #include "boorudl/downloadable.h"
@@ -45,4 +45,4 @@ namespace boorudl {
     };
 } // boorudl
 
-#endif //LIBBOORUDL_FAVORITES_H
+#endif //BOORUDL_FAVORITES_H

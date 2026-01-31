@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_UTILITY_H
-#define LIBBOORUDL_UTILITY_H
+#ifndef BOORUDL_UTILITY_H
+#define BOORUDL_UTILITY_H
 
 #include <iterator>
 #include <pugixml.hpp>
@@ -10,4 +10,4 @@ namespace boorudl::utility {
     }
 } // boorudl::utility
 
-#endif //LIBBOORUDL_UTILITY_H
+#endif //BOORUDL_UTILITY_H

@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_ENUMS_H
-#define LIBBOORUDL_ENUMS_H
+#ifndef BOORUDL_ENUMS_H
+#define BOORUDL_ENUMS_H
 
 #include <string>
 #include <string_view>
@@ -37,4 +37,4 @@ namespace boorudl {
     }
 }
 
-#endif //LIBBOORUDL_ENUMS_H
+#endif //BOORUDL_ENUMS_H

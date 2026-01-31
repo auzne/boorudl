@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_REQUESTER_H
-#define LIBBOORUDL_REQUESTER_H
+#ifndef BOORUDL_REQUESTER_H
+#define BOORUDL_REQUESTER_H
 
 #include "boorudl/downloadable.h"
 #include "boorudl/exporter.h"
@@ -8,7 +8,6 @@
 #include "boorudl/post.h"
 #include "boorudl/source.h"
 #include "boorudl/tags.h"
-#include "boorudl/request.h"
 
 #include <string>
 #include <vector>
@@ -21,8 +20,9 @@ namespace boorudl {
     private:
         ids m_ids;
         tags m_tags;
-        const std::string m_api_url;
         const source& m_source;
+        const std::string m_ids_api_url;
+        const std::string m_tags_api_url;
 
     public:
         requester(ids ids, const source& source);
@@ -35,9 +35,13 @@ namespace boorudl {
 
         requester(requester&&) noexcept = default;
 
-        request make_request(int items_per_page, int total_pages, int starting_page = 0) const;
+        downloadable_type make_request(int items_per_page, int total_pages, int starting_page = 0) const;
 
-        request make_request(int items_per_page, int total_pages, int starting_page, exporter_ref exporter) const;
+        downloadable_type make_request(int items_per_page, int total_pages, int starting_page, exporter_ref exporter) const;
+
+        downloadable_type get_ids_posts(int items_per_page) const;
+
+        downloadable_type get_ids_posts(int items_per_page, exporter_ref exporter) const;
 
         count_type get_post_count() const;
 
@@ -45,15 +49,14 @@ namespace boorudl {
 
         const tags& get_tags() const;
 
-        requester& set_ids(const ids& ids);
-
-        requester& set_tags(const tags& tags);
-
     private:
-        std::vector<page> get_tags_posts(int items_per_page, int total_pages, int starting_page, exporter_ref exporter) const;
+        downloadable_type get_tags_posts(
+            const tags& tags, const std::string& api_url, int items_per_page,
+            int total_pages, int starting_page, exporter_ref exporter, bool isIds = false
+        ) const;
 
-        std::string get_api_url(const source& source) const;
+        static std::string get_api_url(const tags& tags, const source& source);
     };
 } // boorudl
 
-#endif //LIBBOORUDL_REQUESTER_H
+#endif //BOORUDL_REQUESTER_H

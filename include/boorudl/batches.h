@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_BATCHES_H
-#define LIBBOORUDL_BATCHES_H
+#ifndef BOORUDL_BATCHES_H
+#define BOORUDL_BATCHES_H
 
 #include "boorudl/common.h"
 #include "boorudl/downloadable.h"
@@ -35,4 +35,4 @@ namespace boorudl {
     };
 } // boorudl
 
-#endif //LIBBOORUDL_BATCHES_H
+#endif //BOORUDL_BATCHES_H

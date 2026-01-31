@@ -12,15 +12,14 @@ int main() {
     // With the source set you can begin to make post requests
     // Using boorudl::ids you can specify post ids to get them individually
     boorudl::ids ids{ 3372739 };
-    
+
     // Using boorudl::tags you can specify post tags to get posts that have these tags
     boorudl::tags tags{ "xenoblade_chronicles_(series)", "official_art" };
 
     // boorudl::tags also offers other methods as alias for more specific tags
     // For example you can add a safe rating and block posts with generative AI tags
     // There also other methods to add sorting or backlisting tags
-    tags
-        .add_rating(boorudl::rating::type::safe)
+    tags.add_rating(boorudl::rating::type::safe)
         .remove_ai_slop();
 
     // After defining the ids or tags you can create a requester
@@ -32,10 +31,10 @@ int main() {
 
     // The next step is requesting the posts
     // This will make the api calls to fetch the posts
-    // You need to specify the items per page (max 1000)
+    // You need to specify the items per page (max 100 for ids and 1000 for tags)
     // how many pages will be downloaded
     // and optionally, the starting page (starts at 0)
-    boorudl::request request{ requester.make_request(10, 1) };
+    boorudl::downloadable_type request{ requester.make_request(10, 1) };
 
     // After the request is done it'll have all the data stored and ready to download
     // You can pass some options to the downloader, but that will not be covered here

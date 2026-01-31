@@ -1,12 +1,11 @@
-#ifndef LIBBOORUDL_DOWNLOADER_H
-#define LIBBOORUDL_DOWNLOADER_H
+#ifndef BOORUDL_DOWNLOADER_H
+#define BOORUDL_DOWNLOADER_H
 
 #include "boorudl/batches.h"
 #include "boorudl/downloadable.h"
 #include "boorudl/favorites.h"
 #include "boorudl/options.h"
 #include "boorudl/page.h"
-#include "boorudl/request.h"
 
 #include <filesystem>
 
@@ -45,4 +44,4 @@ namespace boorudl {
     };
 } // boorudl
 
-#endif //LIBBOORUDL_DOWNLOADER_H
+#endif //BOORUDL_DOWNLOADER_H

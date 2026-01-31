@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_POST_H
-#define LIBBOORUDL_POST_H
+#ifndef BOORUDL_POST_H
+#define BOORUDL_POST_H
 
 #include "boorudl/common.h"
 #include "boorudl/credentials.h"
@@ -75,7 +75,7 @@ namespace boorudl {
         bool has_tag(const std::string& tag) const;
 
         static std::string get_api_url(common::id_type id, const source& source);
-        
+
         static std::string get_api_url(common::id_type id, const std::string& base_url);
 
         static std::string get_api_url(common::id_type id, const std::string& base_url, const std::string& credentials);
@@ -87,4 +87,4 @@ namespace boorudl {
     };
 } // boorudl
 
-#endif //LIBBOORUDL_POST_H
+#endif //BOORUDL_POST_H

@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_DOWNLOADABLE_H
-#define LIBBOORUDL_DOWNLOADABLE_H
+#ifndef BOORUDL_DOWNLOADABLE_H
+#define BOORUDL_DOWNLOADABLE_H
 
 #include "boorudl/page.h"
 
@@ -9,4 +9,4 @@ namespace boorudl {
     using downloadable_type = std::vector<page>;
 }
 
-#endif //LIBBOORUDL_DOWNLOADABLE_H
+#endif //BOORUDL_DOWNLOADABLE_H

@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_EXPORTER_H
-#define LIBBOORUDL_EXPORTER_H
+#ifndef BOORUDL_EXPORTER_H
+#define BOORUDL_EXPORTER_H
 
 #include "boorudl/page.h"
 #include "boorudl/post.h"
@@ -26,4 +26,4 @@ namespace boorudl {
     using exporter_ref = std::optional<std::reference_wrapper<const i_exporter>>;
 } // boorudl
 
-#endif //LIBBOORUDL_EXPORTER_H
+#endif //BOORUDL_EXPORTER_H

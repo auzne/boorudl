@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_CONSTANTS_H
-#define LIBBOORUDL_CONSTANTS_H
+#ifndef BOORUDL_CONSTANTS_H
+#define BOORUDL_CONSTANTS_H
 
 #include <string_view>
 
@@ -11,4 +11,4 @@ namespace boorudl::constants {
     constexpr inline std::string_view favorites_path{ "index.php?page=favorites&s=view&id=" };
 } // boorudl::constants
 
-#endif //LIBBOORUDL_CONSTANTS_H
+#endif //BOORUDL_CONSTANTS_H

@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_OPTIONS_H
-#define LIBBOORUDL_OPTIONS_H
+#ifndef BOORUDL_OPTIONS_H
+#define BOORUDL_OPTIONS_H
 
 #include "boorudl/common.h"
 #include "boorudl/enums.h"
@@ -43,4 +43,4 @@ namespace boorudl {
     };
 } // boorudl
 
-#endif //LIBBOORUDL_OPTIONS_H
+#endif //BOORUDL_OPTIONS_H

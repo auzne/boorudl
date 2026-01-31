@@ -1,7 +1,7 @@
 # minimum CMake version required
 cmake_minimum_required(VERSION 3.26)
 # project info
-project(libboorudl DESCRIPTION "Api consumer and web scraper for Gelbooru Beta")
+project(boorudl DESCRIPTION "Api consumer and web scraper for Gelbooru Beta")
 
 option(COMPILE_REQUEST_EXAMPLE "Compiles the request example code located in the examples folder" OFF)
 
@@ -18,7 +18,6 @@ add_library(boorudl SHARED
     src/options.cpp
     src/page.cpp
     src/post.cpp
-    src/request.cpp
     src/requester.cpp
     src/source.cpp
     src/tags.cpp

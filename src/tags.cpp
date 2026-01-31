@@ -121,6 +121,10 @@ namespace boorudl {
     }
 
     boorudl::tags& tags::add_or(std::initializer_list<std::string> tags) {
+        return add_or(std::set<std::string>{ tags });
+    }
+
+    boorudl::tags& tags::add_or(const std::set<std::string>& tags) {
         if (tags.size() == 0)
             throw std::invalid_argument{ "'tags' must have at least one item" };
 
@@ -175,6 +179,10 @@ namespace boorudl {
     }
 
     std::string tags::make_or_tag(std::initializer_list<std::string> tags) {
+        return make_or_tag(std::set<std::string>{ tags });
+    }
+
+    std::string tags::make_or_tag(const std::set<std::string>& tags) {
         const auto size{ tags.size() };
         if (size == 0)
             return {};

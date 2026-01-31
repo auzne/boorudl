@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_BOORUDL_H
-#define LIBBOORUDL_BOORUDL_H
+#ifndef BOORUDL_BOORUDL_H
+#define BOORUDL_BOORUDL_H
 
 #include "boorudl/batches.h"
 #include "boorudl/comment.h"
@@ -14,8 +14,8 @@
 #include "boorudl/options.h"
 #include "boorudl/page.h"
 #include "boorudl/post.h"
-#include "boorudl/request.h"
 #include "boorudl/requester.h"
+#include "boorudl/source.h"
 #include "boorudl/tags.h"
 
-#endif //LIBBOORUDL_BOORUDL_H
+#endif //BOORUDL_BOORUDL_H

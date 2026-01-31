@@ -1,5 +1,5 @@
-#ifndef LIBBOORUDL_COMMON_H
-#define LIBBOORUDL_COMMON_H
+#ifndef BOORUDL_COMMON_H
+#define BOORUDL_COMMON_H
 
 #include <cstddef>
 #include <functional>
@@ -13,4 +13,4 @@ namespace boorudl {
     }
 }
 
-#endif //LIBBOORUDL_COMMON_H
+#endif //BOORUDL_COMMON_H
