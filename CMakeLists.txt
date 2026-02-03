@@ -1,9 +1,8 @@
 # minimum CMake version required
 cmake_minimum_required(VERSION 3.26)
+
 # project info
 project(boorudl DESCRIPTION "Api consumer and web scraper for Gelbooru Beta")
-
-option(COMPILE_REQUEST_EXAMPLE "Compiles the request example code located in the examples folder" OFF)
 
 # create the library
 add_library(boorudl SHARED
@@ -48,22 +47,5 @@ target_compile_options(boorudl PRIVATE
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra --pedantic-errors>
 )
 
-# examples build
-if (COMPILE_REQUEST_EXAMPLE)
-    add_executable(request_ex examples/request.cpp)
-
-    target_include_directories(request_ex PRIVATE include)
-
-    target_link_libraries(request_ex boorudl)
-
-    set_target_properties(request_ex PROPERTIES
-        CXX_STANDARD 17
-        CXX_STANDARD_REQUIRED ON
-    )
-
-    target_compile_options(request_ex PRIVATE
-        $<$<CXX_COMPILER_ID:MSVC>:/W4>
-        $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra --pedantic-errors>
-    )
-endif (COMPILE_REQUEST_EXAMPLE)
-unset(COMPILE_REQUEST_EXAMPLE CACHE)
+# include examples cmake
+include(${CMAKE_CURRENT_SOURCE_DIR}/examples/CMakeLists.txt)

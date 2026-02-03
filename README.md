@@ -16,7 +16,7 @@ cmake --build build --target boorudl
 
 Examples can be build by adding `-D<example option>=ON` after `cmake -B build` and setting the target to the example's or `all`
 ```bash
-cmake -B build -DCOMPILE_REQUEST_EXAMPLE=ON
+cmake -B build -DCOMPILE_REQUESTER_EXAMPLE=ON
 cmake --build build --target all
 ```
 

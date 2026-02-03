@@ -50,7 +50,7 @@ int main() {
     downloader.download(download_path);
 
     // 2. Batch download: will download N files at a time, specified by the second argument
-    downloader.batch_download(download_path, 10);
+    // downloader.batch_download(download_path, 10);
 
     return 0;
 }
