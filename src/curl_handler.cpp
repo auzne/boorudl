@@ -29,6 +29,11 @@ namespace boorudl::curl {
         return *this;
     }
 
+    easy& easy::set_redirect(long option) {
+        curl_easy_setopt(m_handle, CURLOPT_FOLLOWLOCATION, option);
+        return *this;
+    }
+
     easy& easy::mimic_user_agent() {
         m_slist = curl_slist_append(m_slist,
             "User-Agent:"

@@ -25,7 +25,8 @@ namespace boorudl {
         , m_tags{ std::move(tags) }
         , m_source{ source }
         , m_ids_api_url{ get_api_url(m_ids.to_tags(), source) }
-        , m_tags_api_url{ get_api_url(m_tags, source) } { }
+        , m_tags_api_url{ get_api_url(m_tags, source) }
+        , m_fallback_api_url{ get_fallback_api_url(source) } { }
 
     downloadable_type requester::make_request(int items_per_page, int total_pages, int starting_page) const {
         return make_request(items_per_page, total_pages, starting_page, std::nullopt);
@@ -62,7 +63,19 @@ namespace boorudl {
         const int size{ static_cast<int>(m_ids.size()) };
         const int total_pages{ static_cast<int>(std::ceil(size / static_cast<double>(items_per_page))) }; 
 
-        return get_tags_posts(m_ids.to_tags(), m_ids_api_url, items_per_page, total_pages, 0, exporter, true);
+        if (m_source.get_force_id_fallback()) {
+            return get_ids_posts_fallback(items_per_page, exporter);
+        }
+
+        try {
+            return get_tags_posts(
+                m_ids.to_tags(), m_ids_api_url, items_per_page,
+                total_pages, 0, exporter, true);
+        } catch (std::runtime_error&) {
+            // this error is thrown when the xml is invalid
+            // happens when the api does not allow to fetch multiple ids as tags
+            return get_ids_posts_fallback(items_per_page, exporter);
+        }
     }
 
     requester::count_type requester::get_post_count() const {
@@ -98,14 +111,14 @@ namespace boorudl {
 
     downloadable_type requester::get_tags_posts(
         const tags& tags, const std::string& api_url, int items_per_page,
-        int total_pages, int starting_page, exporter_ref exporter, bool isIds
+        int total_pages, int starting_page, exporter_ref exporter, bool is_ids
     ) const {
         if (tags.empty())
             return {};
 
         int available_pages{ total_pages };
 
-        if (!isIds) {
+        if (!is_ids) {
             count_type post_count{ get_post_count() };
     
             /* Nothing to download */
@@ -163,11 +176,74 @@ namespace boorudl {
         return result;
     }
 
+    downloadable_type requester::get_ids_posts_fallback(int items_per_page, exporter_ref exporter) const {
+        if (m_ids.empty())
+            return {};
+
+        const auto batches{ m_ids.to_batches(items_per_page) };
+        
+        downloadable_type result;
+        result.reserve(batches.size());
+
+        for (const auto& batch : batches) {
+            std::vector<curl::easy> handles;
+            std::vector<std::stringstream> streams;
+
+            handles.reserve(items_per_page);
+            streams.reserve(items_per_page);
+
+            for (const auto& id : batch) {
+                /* Populate vectors */
+                handles.emplace_back();
+                streams.emplace_back();
+    
+                const std::string download_url{ m_fallback_api_url + std::to_string(id) };
+                handles.back()
+                    .set_to_stream(streams.back(), download_url)
+                    .set_redirect(CURLFOLLOW_FIRSTONLY);
+            }
+
+            curl::multi multi;
+            multi.resolve(handles);
+    
+            page ids_page;
+            ids_page.reserve(items_per_page);
+    
+            pugi::xml_document xml;
+            for (auto& stream : streams) {
+                auto xml_res{ xml.load(stream) };
+                if (!xml_res) {
+                    // TODO: log on fail
+                    continue;
+                }
+    
+                auto posts_node{ xml.child("posts") };
+                // TODO: log on fail, this can happen when id does not exist or the post has been deleted
+                if (posts_node.attribute("count").as_int() == 0) {
+                    ids_page.set_is_missing_ids(true);
+                    continue;
+                }
+    
+                ids_page.emplace_back(posts_node.child("post"));
+    
+                if (exporter)
+                    exporter->get().on_post(ids_page.back());
+            }
+    
+            if (exporter)
+                exporter->get().on_page(ids_page);
+
+            result.push_back(ids_page);
+        }
+
+        return result;
+    }
+
     std::string requester::get_api_url(const tags& tags, const source& source) {
         if (tags.empty())
             return {};
 
-        const std::string url{ source.get_base_url()
+        const std::string url{ source.get_api_url()
             + std::string{ constants::posts_path }
             + "&tags="
             + tags.to_string() };
@@ -175,5 +251,14 @@ namespace boorudl {
         return source.has_credentials()
             ? url + source.get_credentials().value().to_query_string()
             : url;
+    }
+
+    std::string requester::get_fallback_api_url(const source& source) {
+        std::string url{ source.get_api_url() + std::string{ constants::posts_path } };
+
+        if (source.has_credentials())
+            url += source.get_credentials().value().to_query_string();
+
+        return url + "&id=";
     }
 } // boorudl

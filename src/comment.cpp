@@ -70,7 +70,7 @@ namespace boorudl {
     }
 
     std::string comment::get_api_url(common::id_type post_id, const source& source) {
-        const std::string url{ source.get_base_url()
+        const std::string url{ source.get_api_url()
             + std::string{ constants::comments_path }
             + std::to_string(post_id) };
 

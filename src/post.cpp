@@ -11,7 +11,7 @@
 
 namespace boorudl {
     post::post(common::id_type id, const source& source)
-        : post{ id, source.get_base_url(), source.get_credentials() } { }
+        : post{ id, source.get_api_url(), source.get_credentials() } { }
 
     post::post(common::id_type id, const std::string& base_url, const credentials_type& credentials)
         : post{ get_xml_by_id(id, base_url, credentials) } { }
@@ -81,7 +81,7 @@ namespace boorudl {
     }
 
     std::string post::get_api_url(common::id_type id, const source& source) {
-        return get_api_url(id, source.get_base_url(), source.get_credentials());
+        return get_api_url(id, source.get_api_url(), source.get_credentials());
     }
 
     std::string post::get_api_url(common::id_type id, const std::string& base_url) {

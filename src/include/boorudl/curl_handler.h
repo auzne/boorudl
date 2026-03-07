@@ -24,6 +24,8 @@ namespace boorudl::curl {
 
         easy& set_to_stream(const std::ostream& stream, const std::string& url);
 
+        easy& set_redirect(long option);
+
         easy& mimic_user_agent();
 
         CURLcode perform();

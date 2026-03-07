@@ -5,7 +5,8 @@
 int main() {
     // To create a source (where you will be downloading from)
     // You must pass the base website url with trailing slash '/'
-    // Then, optionally, the user credentials, this vary from the website
+    // Then, optionally, an api url and the user credentials, this vary from the website
+    // If no api url is passed the base url will be used instead
     // There is no validation of any data passed
     boorudl::source source{ "https://safebooru.org/" };
 

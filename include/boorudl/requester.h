@@ -23,6 +23,7 @@ namespace boorudl {
         const source& m_source;
         const std::string m_ids_api_url;
         const std::string m_tags_api_url;
+        const std::string m_fallback_api_url;
 
     public:
         requester(ids ids, const source& source);
@@ -52,10 +53,14 @@ namespace boorudl {
     private:
         downloadable_type get_tags_posts(
             const tags& tags, const std::string& api_url, int items_per_page,
-            int total_pages, int starting_page, exporter_ref exporter, bool isIds = false
+            int total_pages, int starting_page, exporter_ref exporter, bool is_ids = false
         ) const;
 
+        downloadable_type get_ids_posts_fallback(int items_per_page, exporter_ref exporter) const;
+
         static std::string get_api_url(const tags& tags, const source& source);
+
+        static std::string get_fallback_api_url(const source& source);
     };
 } // boorudl
 
