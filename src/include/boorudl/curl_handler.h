@@ -24,6 +24,8 @@ namespace boorudl::curl {
 
         easy& set_to_stream(const std::ostream& stream, const std::string& url);
 
+        easy& set_max_file_size(std::size_t mb_value);
+        
         easy& set_redirect(long option);
 
         easy& mimic_user_agent();

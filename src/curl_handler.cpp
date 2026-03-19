@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+constexpr int megabyte_to_byte_multiplier{ 1'000'000 };
+
 namespace boorudl::curl {
     easy::easy()
         : m_handle{ curl_easy_init() } { }
@@ -26,6 +28,11 @@ namespace boorudl::curl {
         curl_easy_setopt(m_handle, CURLOPT_URL, url.c_str());
         curl_easy_setopt(m_handle, CURLOPT_WRITEFUNCTION, write_to_stream);
         curl_easy_setopt(m_handle, CURLOPT_WRITEDATA, &stream);
+        return *this;
+    }
+
+    easy& easy::set_max_file_size(std::size_t mb_value) {
+        curl_easy_setopt(m_handle, CURLOPT_MAXFILESIZE_LARGE, mb_value * megabyte_to_byte_multiplier);
         return *this;
     }
 

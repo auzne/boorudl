@@ -3,10 +3,11 @@
 #include <utility>
 
 namespace boorudl {
-    options::options(on_duplicate duplicate, group_type group_by, common::filter_type filter)
+    options::options(on_duplicate duplicate, group_type group_by, common::filter_type filter, std::size_t max_file_size_mb)
         : m_duplicate{ duplicate }
         , m_group_by{ group_by }
-        , m_filter{ std::move(filter) } { }
+        , m_filter{ std::move(filter) }
+        , m_max_file_size_mb{ max_file_size_mb } { }
 
     options& options::set_on_duplicate(on_duplicate duplicate) {
         m_duplicate = duplicate;
@@ -20,6 +21,15 @@ namespace boorudl {
 
     options& options::set_filter_type(common::filter_type filter) {
         m_filter = filter;
+        return *this;
+    }
+
+    std::size_t options::get_max_file_size_mb() const {
+        return m_max_file_size_mb;
+    }
+
+    options& options::set_max_file_size_mb(std::size_t mb_value) {
+        m_max_file_size_mb = mb_value;
         return *this;
     }
 } // boorudl

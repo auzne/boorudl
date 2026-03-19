@@ -74,10 +74,11 @@ namespace boorudl {
             const std::string download_url{ post.get_file_url() };
             CURLcode res{ handle
                 .set_to_stream(file, download_url)
+                .set_max_file_size(m_options.get_max_file_size_mb())
                 .perform() };
 
             if (res != CURLE_OK) {
-                // TODO: log fail
+                // TODO: log fail and CURLE_FILESIZE_EXCEEDED
                 continue;
             }
         }
@@ -114,7 +115,9 @@ namespace boorudl {
             files.emplace_back(std::move(file_path));
 
             const std::string download_url{ post.get_file_url() };
-            handles.back().set_to_stream(files.back(), download_url);
+            handles.back()
+                .set_to_stream(files.back(), download_url)
+                .set_max_file_size(m_options.get_max_file_size_mb());
         }
 
         curl::multi multi;
