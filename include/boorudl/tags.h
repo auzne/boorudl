@@ -32,9 +32,9 @@ namespace boorudl {
 
         tags& remove_tag_blacklist(const std::string& tag);
 
-        tags& add_sort(sort::type type, bool ascending = true);
+        tags& add_sort(sort::type type, sort::order order = sort::order::Default);
 
-        tags& remove_sort(sort::type type, bool ascending = true);
+        tags& remove_sort(sort::type type, sort::order order = sort::order::Default);
 
         tags& add_rating(rating::type type, bool blacklisted = false);
 
@@ -47,6 +47,10 @@ namespace boorudl {
         tags& add_blacklist_from_user(const std::string& user);
 
         tags& remove_blacklist_from_user(const std::string& user);
+
+        tags& add_aspect_ratio(int width, int height, bool blacklisted = false);
+
+        tags& remove_aspect_ratio(int width, int height, bool blacklisted = false);
 
         tags& add_or(std::initializer_list<std::string> tags);
 
@@ -63,6 +67,8 @@ namespace boorudl {
         static bool is_blacklist_tag(std::string_view tag);
 
         static std::string make_from_user_tag(const std::string& username);
+
+        static std::string make_aspect_ratio_tag(int width, int height);
 
         static std::string make_or_tag(std::initializer_list<std::string> tags);
 

@@ -1,6 +1,7 @@
 #include "boorudl/enums.h"
 #include "boorudl/tags.h"
 
+#include <cmath>
 #include <initializer_list>
 #include <set>
 #include <sstream>
@@ -51,13 +52,13 @@ namespace boorudl {
         return *this;
     }
 
-    boorudl::tags& tags::add_sort(sort::type type, bool ascending) {
-        insert(sort::build_tag(type, ascending));
+    boorudl::tags& tags::add_sort(sort::type type, sort::order order) {
+        insert(sort::build_tag(type, order));
         return *this;
     }
 
-    boorudl::tags& tags::remove_sort(sort::type type, bool ascending) {
-        erase_tag(sort::build_tag(type, ascending), false);
+    boorudl::tags& tags::remove_sort(sort::type type, sort::order order) {
+        erase_tag(sort::build_tag(type, order), false);
         return *this;
     }
 
@@ -110,13 +111,25 @@ namespace boorudl {
 
     boorudl::tags& tags::add_blacklist_from_user(const std::string& user) {
         auto tag{ make_from_user_tag(user) };
-        auto result{ insert_tag(tag, true) };
+        insert_tag(tag, true);
         return *this;
     }
 
     boorudl::tags& tags::remove_blacklist_from_user(const std::string& user) {
         auto tag{ make_from_user_tag(user) };
         erase_tag(tag, true);
+        return *this;
+    }
+
+    boorudl::tags& tags::add_aspect_ratio(int width, int height, bool blacklisted) {
+        auto tag{ make_aspect_ratio_tag(width, height) };
+        insert_tag(tag, blacklisted);
+        return *this;
+    }
+
+    boorudl::tags& tags::remove_aspect_ratio(int width, int height, bool blacklisted) {
+        auto tag{ make_aspect_ratio_tag(width, height) };
+        erase_tag(tag, blacklisted);
         return *this;
     }
 
@@ -176,6 +189,13 @@ namespace boorudl {
 
     std::string tags::make_from_user_tag(const std::string& username) {
         return "user:" + username;
+    }
+
+    std::string tags::make_aspect_ratio_tag(int width, int height) {
+        return "aspectratio:"
+            + std::to_string(std::abs(width))
+            + ':'
+            + std::to_string(std::abs(height));
     }
 
     std::string tags::make_or_tag(std::initializer_list<std::string> tags) {

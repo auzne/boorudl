@@ -2,11 +2,11 @@
 cmake_minimum_required(VERSION 3.26)
 
 # examples toggles
-option(COMPILE_REQUESTER_EXAMPLE "Compiles the requester example code" OFF)
-option(COMPILE_FAVORITES_EXAMPLE "Compiles the favorites example code" OFF)
+option(REQUESTER_EXAMPLE "Compiles the requester example code" OFF)
+option(FAVORITES_EXAMPLE "Compiles the favorites example code" OFF)
 
 # build requester example
-if (COMPILE_REQUESTER_EXAMPLE)
+if (REQUESTER_EXAMPLE)
     add_executable(requester_ex examples/requester.cpp)
 
     target_include_directories(requester_ex PRIVATE include)
@@ -22,11 +22,11 @@ if (COMPILE_REQUESTER_EXAMPLE)
         $<$<CXX_COMPILER_ID:MSVC>:/W4>
         $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra --pedantic-errors>
     )
-endif (COMPILE_REQUESTER_EXAMPLE)
-unset(COMPILE_REQUESTER_EXAMPLE CACHE)
+endif (REQUESTER_EXAMPLE)
+unset(REQUESTER_EXAMPLE CACHE)
 
 # build favorites example
-if (COMPILE_FAVORITES_EXAMPLE)
+if (FAVORITES_EXAMPLE)
     add_executable(favorites_ex examples/favorites.cpp)
 
     target_include_directories(favorites_ex PRIVATE include)
@@ -42,5 +42,5 @@ if (COMPILE_FAVORITES_EXAMPLE)
         $<$<CXX_COMPILER_ID:MSVC>:/W4>
         $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra --pedantic-errors>
     )
-endif (COMPILE_FAVORITES_EXAMPLE)
-unset(COMPILE_FAVORITES_EXAMPLE CACHE)
+endif (FAVORITES_EXAMPLE)
+unset(FAVORITES_EXAMPLE CACHE)

@@ -5,7 +5,7 @@
 
 namespace boorudl {
     namespace sort {
-        std::string to_string(type type) {
+        std::string type_to_string(type type) {
             switch (type) {
                 case type::id:
                     return "id";
@@ -23,13 +23,29 @@ namespace boorudl {
                     return "parent";
                 case type::source:
                     return "source";
+                case type::random:
+                    return "random";
             }
             return {};
         }
 
-        std::string build_tag(type type, bool ascending) {
-            auto way{ ascending ? ":asc" : ":desc" };
-            return "sort:" + to_string(type) + way;
+        std::string order_to_string(order order) {
+            switch (order) {
+                case order::asc:
+                    return "asc";
+                case order::desc:
+                    return "desc";
+                case order::Default:
+                default:
+                    return {};
+            }
+        }
+
+        std::string build_tag(type type, order order) {
+            auto base{ "sort:" + type_to_string(type) };
+            return order != order::Default
+                ? base + ':' + order_to_string(order)
+                : base;
         }
     }
 

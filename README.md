@@ -8,15 +8,18 @@ this project started in 2023 for a single Gelbooru Beta website and had some upd
 
 Dependencies must be installed in the system to compile
 
-Build can be done using cmake on project root
+Build can be done on project root:
 ```bash
+# using cmake
 cmake -B build
 cmake --build build --target boorudl
+# using makefile
+make build
 ```
 
 Examples can be build by adding `-D<example option>=ON` after `cmake -B build` and setting the target to the example's or `all`
 ```bash
-cmake -B build -DCOMPILE_REQUESTER_EXAMPLE=ON
+cmake -B build -DREQUESTER_EXAMPLE=ON
 cmake --build build --target all
 ```
 

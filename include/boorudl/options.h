@@ -29,7 +29,7 @@ namespace boorudl {
         on_duplicate m_duplicate{ on_duplicate::skip };
         group_type m_group_by{ group_type::none };
         common::filter_type m_filter{};
-        std::size_t m_max_file_size_mb{ 0 };
+        std::size_t m_max_file_size_mb{ no_file_size_limit };
 
     public:
         options() = default;

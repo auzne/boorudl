@@ -15,11 +15,20 @@ namespace boorudl {
             width,
             parent,
             source,
+            random,
         };
 
-        std::string to_string(type type);
+        enum class order {
+            Default,
+            asc,
+            desc,
+        };
 
-        std::string build_tag(type type, bool ascending);
+        std::string type_to_string(type type);
+
+        std::string order_to_string(order order);
+
+        std::string build_tag(type type, order order);
     }
 
     namespace rating {
