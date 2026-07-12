@@ -58,6 +58,10 @@ namespace boorudl {
 
         downloadable_type get_ids_posts_fallback(int items_per_page, exporter_ref exporter) const;
 
+        bool request_ids_posts_fallback(int items_per_page, page& ids_page, const ids& batch, exporter_ref exporter) const;
+
+        ids get_missing_ids(const page& page, const ids& batch) const;
+
         static std::string get_api_url(const tags& tags, const source& source);
 
         static std::string get_fallback_api_url(const source& source);

@@ -48,6 +48,15 @@ namespace boorudl {
         return *this;
     }
 
+    int source::get_request_refresh_s() const {
+        return m_request_refresh_s;
+    }
+
+    source& source::set_request_refresh_s(int request_refresh_s) {
+        m_request_refresh_s = request_refresh_s;
+        return *this;
+    }
+
     std::optional<const std::string> source::get_credentials_query_string() const {
         if (!has_credentials())
             return std::nullopt;

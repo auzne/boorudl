@@ -10,6 +10,7 @@
 #include <pugixml.hpp>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -186,55 +187,87 @@ namespace boorudl {
         result.reserve(batches.size());
 
         for (const auto& batch : batches) {
-            std::vector<curl::easy> handles;
-            std::vector<std::stringstream> streams;
-
-            handles.reserve(items_per_page);
-            streams.reserve(items_per_page);
-
-            for (const auto& id : batch) {
-                /* Populate vectors */
-                handles.emplace_back();
-                streams.emplace_back();
-    
-                const std::string download_url{ m_fallback_api_url + std::to_string(id) };
-                handles.back()
-                    .set_to_stream(streams.back(), download_url)
-                    .set_redirect(CURLFOLLOW_FIRSTONLY);
-            }
-
-            curl::multi multi;
-            multi.resolve(handles);
-    
             page ids_page;
-            ids_page.reserve(items_per_page);
-    
-            pugi::xml_document xml;
-            for (auto& stream : streams) {
-                auto xml_res{ xml.load(stream) };
-                if (!xml_res) {
-                    // TODO: log on fail
-                    continue;
-                }
-    
-                auto posts_node{ xml.child("posts") };
-                // TODO: log on fail, this can happen when id does not exist or the post has been deleted
-                if (posts_node.attribute("count").as_int() == 0) {
-                    ids_page.set_is_missing_ids(true);
-                    continue;
-                }
-    
-                ids_page.emplace_back(posts_node.child("post"));
-    
-                if (exporter)
-                    exporter->get().on_post(ids_page.back());
-            }
-    
+            bool success{ true };
+
+            do {
+                const ids& current = success
+                    ? batch
+                    : get_missing_ids(ids_page, batch);
+
+                success = request_ids_posts_fallback(items_per_page, ids_page, current, exporter);
+            } while (!success);
+
             if (exporter)
                 exporter->get().on_page(ids_page);
 
             result.push_back(ids_page);
         }
+        
+        // adicionar validação de rating limit (status code 429)
+        return result;
+    }
+
+    bool requester::request_ids_posts_fallback(int items_per_page, page& ids_page, const ids& batch, exporter_ref exporter) const {
+        std::vector<curl::easy> handles;
+        std::vector<std::stringstream> streams;
+
+        handles.reserve(items_per_page);
+        streams.reserve(items_per_page);
+        ids_page.reserve(items_per_page);
+
+        for (const auto& id : batch) {
+            const std::ostream& stream{ streams.emplace_back() };
+            const std::string download_url{ m_fallback_api_url + std::to_string(id) };
+
+            handles
+                .emplace_back()
+                .set_to_stream(stream, download_url)
+                .set_redirect(CURLFOLLOW_FIRSTONLY);
+        }
+
+        curl::multi multi;
+        bool success{ multi.resolve(handles, true) };
+
+        pugi::xml_document xml;
+        for (auto& stream : streams) {
+            auto xml_res{ xml.load(stream) };
+            if (!xml_res) {
+                // TODO: log on fail
+                continue;
+            }
+
+            auto posts_node{ xml.child("posts") };
+            // TODO: log on fail, this can happen when id does not exist or the post has been deleted
+            if (posts_node.attribute("count").as_int() == 0) {
+                ids_page.set_is_missing_ids(true);
+                continue;
+            }
+
+            const post& post{ ids_page.emplace_back(posts_node.child("post")) };
+            if (exporter)
+                exporter->get().on_post(post);
+        }
+
+        int request_refresh_s{ m_source.get_request_refresh_s() };
+        if (!success && request_refresh_s > source::no_limit) {
+            if (exporter)
+                exporter->get().on_timeout(request_refresh_s);
+
+            using namespace std::chrono_literals;
+            std::this_thread::sleep_for(request_refresh_s * 1s);
+        }
+
+        return success;
+    }
+
+    ids requester::get_missing_ids(const page& page, const ids& batch) const {
+        if (page.empty())
+            return batch;
+
+        ids result{ batch };
+        for (const post& post : page)
+            result.erase(post.get_id());
 
         return result;
     }

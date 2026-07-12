@@ -20,6 +20,9 @@ namespace boorudl {
         // This function is called when a page is done and has at least one post
         virtual void on_page(const page& page) const noexcept = 0;
 
+        // optional: called when status code 429 happens in requester::get_ids_posts_fallback
+        virtual void on_timeout([[maybe_unused]] int seconds) const noexcept { };
+
         virtual ~i_exporter() = default;
     };
 

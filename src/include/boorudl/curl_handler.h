@@ -58,7 +58,7 @@ namespace boorudl::curl {
 
         void perform();
 
-        void resolve(const std::vector<easy>& handles);
+        bool resolve(const std::vector<easy>& handles, bool checkStatusCode = false);
     };
 } // boorudl::curl
 

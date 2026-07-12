@@ -94,9 +94,30 @@ namespace boorudl::curl {
         } while (running);
     }
 
-    void multi::resolve(const std::vector<easy>& handles) {
+    bool multi::resolve(const std::vector<easy>& handles, bool checkStatusCode) {
         add_handles(handles);
         perform();
+
+        if (checkStatusCode) {
+            struct CURLMsg *msg;
+            do {
+                int queue{ 0 };
+                msg = curl_multi_info_read(m_handle, &queue);
+    
+                if (msg && (msg->msg == CURLMSG_DONE)) {
+                    CURL* handle{ msg->easy_handle };
+                    long http_code{ 0 };
+                    curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &http_code);
+    
+                    if (http_code == 429) {
+                        remove_handles(handles);
+                        return false;
+                    }
+                }
+            } while (msg);
+        }
+
         remove_handles(handles);
+        return true;
     }
 } // boorudl::curl
