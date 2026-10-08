@@ -1,0 +1,44 @@
+name: CI/boorudl
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+  BUILD_TARGET: boorudl
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          cmake \
+          curl \
+          libcurl4-openssl-dev \
+          libpugixml-dev
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target ${{env.BUILD_TARGET}}
+
+    - name: Prepare artifact
+      run: |
+        mkdir -p artifact/include
+        cp ${{ github.workspace }}/build/libboorudl.so artifact/
+        cp -r include/ artifact/
+
+    - name: Upload library artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: boorudl
+        path: artifact/
